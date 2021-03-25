@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100vh;
+    background: #eee;
+}
+
+html {
+    font-size: 10px;
+    font-family: sans-serif;
+}
+
+.a-links {
+    text-decoration: none !important;
+    color: #ffff !important;
+}
+
+.header {
+
+    width: 100%;
+    margin: 0 auto;
+
+    flex-wrap: wrap;
+}
+
+.navs {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-transform:capitalize;
+    font-size: 1.6rem;
+    background-color: #003580;
+    height: 70px;
+}
+
+.navs img {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.brand a {
+    color: #ffff !important;
+    text-decoration: none !important;
+}
+
+.brand {
+    width: 164px;
+    height: 65px;
+
+    transform: translateX(-100rem);
+    animation: slideIn 1.5s forwards;
+
+}
+
+.brand span {
+    color: crimson;
+}
+
+nav ul {
+    display: flex;
+
+}
+
+@media screen and (max-width:600px) {
+    nav ul {
+        display: none !important;
+    }
+
+}
+
+nav ul li:nth-child(1) {
+    animation-delay: 0s;
+}
+
+nav ul li:nth-child(2) {
+    animation-delay: .3s !important;
+}
+
+nav ul li:nth-child(3) {
+    animation-delay: .6s;
+}
+
+nav ul li:nth-child(4) {
+    animation-delay: .9s;
+}
+
+nav ul li {
+    list-style: none;
+    transform: translateX(100rem);
+    animation: slideIn 2s forwards;
+    animation-timing-function: cubic-bezier(1, -0.09, 0.23, 0.06);
+}
+
+nav ul li a {
+    padding: 0.4rem 0;
+    margin: 0 3rem;
+    position: relative;
+    letter-spacing: px;
+}
+
+nav ul li a:last-child {
+    margin-right: 0;
+}
+
+nav ul li a::before,
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #61dafb;
+    left: 0;
+    transform: scaleX(0);
+    transition: all .5s;
+
+}
+
+nav ul li a::before {
+    top: 0;
+    transform-origin: left;
+}
+
+nav ul li a::after {
+    bottom: 0;
+    transform-origin: right;
+}
+
+nav ul li a:hover::before,
+nav ul li a:hover::after {
+    transform: scaleX(1);
+}
+
+@keyframes slideIn {
+    from {}
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.accountImg {
+    position: relative;
+    display: flex;
+    color: #eee;
+    left: 50%;
+}
