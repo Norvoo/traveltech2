@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../aoo.css";
 import { Link } from "react-router-dom";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   ClickAwayListener,
   Grow,
@@ -39,14 +40,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function NavBar() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ menus: [] });
+  // const [imageFile, setFile] = useState("");
+  // const [menus, setMenu] = useState([]);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    console.log("fetched");
+    let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
     result = await result.json();
-    console.log(result);
     setData(result);
   }, []);
-  console.warn("data", data);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -80,85 +82,107 @@ export default function NavBar() {
     prevOpen.current = open;
   }, [open]);
 
+  console.log("called");
   return (
     <div className="header">
       <nav className="navs">
+        <Link to={"/"} key={data.id}>
+          <img
+            style={{ width: 100 }}
+            src={
+              "http://192.168.0.111/traveltech2/wwwroot/Images/" +
+              data.imageName
+            }
+          />
+        </Link>
         <ul>
-          {data.map((item) => {
-            if (item.drop) {
-              console.log(item.drop);
-              if (item.drop instanceof Array && item.drop.length > 0) {
+          {data.menus.map((it) => {
+            if (it.menuItems) {
+              console.log(it.menuItems);
+              if (it.menuItems instanceof Array && it.menuItems.length > 0) {
                 return (
-                  <li data-isdrop="true">
-                    <div className={classes.root}>
-                      <Button
-                        ref={anchorRef}
-                        aria-controls={open ? "menu-list-grow" : undefined}
-                        aria-haspopup="true"
-                        onClick={handleToggle}
-                        className="a-links"
-                      >
-                        {item.name}
-                      </Button>
-                      <Popper
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin:
-                                placement === "bottom"
-                                  ? "center top"
-                                  : "center bottom",
-                            }}
-                          >
-                            <MyPaper>
-                              <ClickAwayListener onClickAway={handleClose}>
-                                <MyMenuList
-                                  autoFocusItem={open}
-                                  id="menu-list-grow"
-                                  onKeyDown={handleListKeyDown}
-                                >
-                                  <FooterContainer>
-                                    <FooterWrap>
-                                      <FooterLinksContainer>
-                                        <FooterLinkWrapper>
-                                          {item.drop.map((i) => {
-                                            return (
-                                              <FooterLinkItems key={i.id}>
-                                                <FooterLinkTitle>
-                                                  {i.name}
-                                                </FooterLinkTitle>
-                                                <FooterLink to="/">
-                                                  {i.desc}
-                                                </FooterLink>
-                                              </FooterLinkItems>
-                                            );
-                                          })}
-                                        </FooterLinkWrapper>
-                                      </FooterLinksContainer>
-                                    </FooterWrap>
-                                  </FooterContainer>
-                                </MyMenuList>
-                              </ClickAwayListener>
-                            </MyPaper>
-                          </Grow>
-                        )}
-                      </Popper>
-                    </div>
+                  <li data-ismenuItems="true" key={it.id}>
+                    <Link
+                      ref={anchorRef}
+                      // aria-controls={open ? "menu-list-grow" : undefined}
+                      // aria-haspopup="true"
+                      onClick={handleToggle}
+                      className="a-links"
+                    >
+                      {it.name}
+                      <ExpandMoreIcon />
+                    </Link>
+                    <Popper
+                      open={open}
+                      anchorEl={anchorRef.current}
+                      role={undefined}
+                      transition
+                      // disablePortal
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={
+                            {
+                              // transformOrigin:
+                              //   // placement === "bottom"
+                              //     ? "center top"
+                              //     : "center bottom",
+                            }
+                          }
+                        >
+                          <MyPaper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                              <MyMenuList
+                                autoFocusit={open}
+                                id="menu-list-grow"
+                                onKeyDown={handleListKeyDown}
+                              >
+                                <FooterContainer>
+                                  <FooterWrap>
+                                    <FooterLinksContainer>
+                                      <FooterLinkWrapper>
+                                        {it.menuItems.map((i) => {
+                                          return (
+                                            <FooterLinkItems key={i.id}>
+                                              <FooterLinkTitle>
+                                                {i.name}
+                                              </FooterLinkTitle>
+                                              <FooterLink to="/">
+                                                {i.desc}
+                                              </FooterLink>
+                                              {i.links.map((l) => {
+                                                return (
+                                                  <ul>
+                                                    <li key={l.id}>
+                                                      <a href={l.url}>
+                                                        {l.name}
+                                                      </a>
+                                                    </li>
+                                                  </ul>
+                                                );
+                                              })}
+                                            </FooterLinkItems>
+                                          );
+                                        })}
+                                      </FooterLinkWrapper>
+                                    </FooterLinksContainer>
+                                  </FooterWrap>
+                                </FooterContainer>
+                              </MyMenuList>
+                            </ClickAwayListener>
+                          </MyPaper>
+                        </Grow>
+                      )}
+                    </Popper>
                   </li>
                 );
               } else {
                 return (
-                  <li data-isdrop="false" key={item.id}>
-                    <Link to={item.url} className="a-links">
-                      {item.name}
-                    </Link>
+                  <li data-ismenuItems="false" key={it.id}>
+                    <a href={it.url} className="a-links">
+                      {it.name}
+                    </a>
                   </li>
                 );
               }

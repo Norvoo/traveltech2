@@ -7,6 +7,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import "./App.css";
 const useStyles = makeStyles({
   table: {
     minWidth: 6,
@@ -21,7 +23,9 @@ export default function AcccessibleTable() {
   }, []);
   console.warn("data", data);
   async function getData() {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    let result = await fetch(
+      "http://192.168.0.111/traveltech/api/company/companystory"
+    );
     result = await result.json();
     console.log(result);
     setData(result);
@@ -29,7 +33,7 @@ export default function AcccessibleTable() {
   console.warn("data", data);
   async function deleteOperation(id) {
     let result = await fetch(
-      "http://192.168.0.111/traveltech2/api/app/menus/" + id,
+      "http://http://192.168.0.111/traveltech/api/company/companystorys/" + id,
       { method: "delete" }
     );
     result = await result.json();
@@ -46,16 +50,27 @@ export default function AcccessibleTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell>{row.desc}</TableCell>
+              <TableCell>{row.description}</TableCell>
+              <TableCell>
+                <img
+                  className="img-size"
+                  src={
+                    "http://192.168.0.111/traveltech/wwwroot/Images/" +
+                    row.image
+                  }
+                />
+              </TableCell>
               <TableCell>
                 <Button
-                  size="sm"
-                  variant="primary"
+                  size="small"
+                  variant="text"
                   onClick={() => deleteOperation(row.id)}
                 >
                   Delete
                 </Button>
-                ;
+              </TableCell>
+              <TableCell>
+                <Link to={"/update/" + row.id}>update</Link>
               </TableCell>
             </TableRow>
           ))}

@@ -6,27 +6,23 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MenuAdd from "../../Model/Menu/AddMenu.js";
-import MenuList from "../../Model/Menu/ListMenu.js";
+import MenuList from "../../Model/Menu/UpdateMenu.js";
 import DropAdd from "../../Model/Drop/AddDrop.js";
 import DropList from "../../Model/Drop/droplist.js";
+import Update from "../../Model/Drop/list.js";
+import HeadLogo from "../../Model/Head/headList";
+import Headupdate from "../../Model/Head/update";
+import { BrowserRouter, Route } from "react-router-dom";
 // import Form from "./list";
 // import List from "./table";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(16),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 export default function SimpleAccordion() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Accordion className={classes.root}>
+    <div className={classes}>
+      <Accordion className={classes}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -34,6 +30,11 @@ export default function SimpleAccordion() {
         >
           <Typography className={classes.heading}>Header</Typography>
         </AccordionSummary>
+        {/* 
+                            
+                            Head
+                            
+                            */}
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -42,7 +43,11 @@ export default function SimpleAccordion() {
           >
             <Typography className={classes.heading}>Menu</Typography>
           </AccordionSummary>
-
+          {/* 
+                            
+                           Head-Menu
+                            
+                            */}
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -59,9 +64,6 @@ export default function SimpleAccordion() {
             </AccordionDetails>
           </Accordion>
           <AccordionDetails>
-            <MenuAdd />
-          </AccordionDetails>
-          <AccordionDetails>
             <MenuList />
           </AccordionDetails>
         </Accordion>
@@ -73,12 +75,20 @@ export default function SimpleAccordion() {
           >
             <Typography className={classes.heading}>Logo Image</Typography>
           </AccordionSummary>
+          {/* 
+                            
+                           Head-Logo
+                            
+                            */}
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
+            <Update />
+          </AccordionDetails>
+          <AccordionDetails>
+            <BrowserRouter>
+              <Route path="/updateList/:id">
+                <Headupdate />
+              </Route>
+            </BrowserRouter>
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -87,14 +97,20 @@ export default function SimpleAccordion() {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography className={classes.heading}>Accordion 2</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
+            <Typography className={classes.heading}>
+              Head-Logo-Update
             </Typography>
+          </AccordionSummary>
+          {/* 
+                            
+                           Head-Logo
+                            
+                            */}
+          <AccordionDetails>
+            <HeadLogo />
+          </AccordionDetails>
+          <AccordionDetails>
+            <Headupdate />
           </AccordionDetails>
         </Accordion>
       </Accordion>

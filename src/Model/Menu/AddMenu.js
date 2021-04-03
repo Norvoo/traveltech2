@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 const AddPartner = () => {
+  const [data, setData] = useState([]);
+  const [headID, setHeadId] = useState(null);
+  useEffect(async () => {
+    let result = await fetch("http://192.168.0.111/traveltech2/api/app");
+    result = await result.json();
+    console.log(result);
+    setHeadId(result["headID"]);
+    setData(result);
+  }, []);
   const [name, setName] = useState("");
   const [url, setDescription] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const partner = { name, url };
+    const partner = { name, url, headID };
 
     fetch("http://192.168.0.111/traveltech2/api/app/menus", {
       method: "POST",
@@ -16,6 +27,18 @@ const AddPartner = () => {
     });
     alert("new Menu");
   };
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 200,
+      fontSize: "1rem",
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
+  const classes = useStyles();
   return (
     <div>
       <h1>Add Menu</h1>
@@ -42,6 +65,14 @@ const AddPartner = () => {
             placeholder="Description"
           />
           <br />
+          <input
+            type="hidden"
+            required
+            className="form-control"
+            value={headID}
+            name="headID"
+          />
+
           <button type="submit">Add</button>
         </div>
       </form>

@@ -42,7 +42,7 @@ export default function AcccessibleTable() {
       <Table className={classes.table} aria-label="caption table">
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>

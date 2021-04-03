@@ -16,7 +16,7 @@ export default function Dr() {
           <FooterLinkWrapper>
             {item.Menu.Drop.map((i) => {
               return (
-                <FooterLinkItems>
+                <FooterLinkItems key={i.id}>
                   <FooterLinkTitle>{i.name}</FooterLinkTitle>
                   <FooterLink to="/">{item.desc}</FooterLink>
                 </FooterLinkItems>

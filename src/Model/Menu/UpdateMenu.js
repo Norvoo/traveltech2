@@ -6,66 +6,67 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
 import { makeStyles } from "@material-ui/core/styles";
+import Up from "./AddMenu.js";
 function App() {
-  const [menuItems, setMenuItems] = useState([]);
+  const [menus, setMenus] = useState([]);
   const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [menusId, setMenusId] = useState("");
+  const [url, setUrl] = useState("");
+  const [headID, setHeadId] = useState(null);
   const [id, setId] = useState(null);
 
-  const [menu, setMenu] = useState([]);
+  const [head, setHead] = useState([]);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
     result = await result.json();
     console.log(result);
-    setMenu(result);
+    setHead(result);
   }, []);
-  console.warn("menu", menu);
+  console.warn("head", head);
   useEffect(() => {
-    getmenuItemss();
+    getmenus();
   }, []);
-  function getmenuItemss() {
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems").then(
-      (result) => {
-        result.json().then((resp) => {
-          console.log(resp);
-          // console.warn(resp)
-          setMenuItems(resp);
-          setName(resp[0].name);
-          setDesc(resp[0].desc);
-          setMenusId(resp[0].menusID);
-          setId(resp[0].id);
-        });
-      }
-    );
+  function getmenus() {
+    fetch("http://192.168.0.111/traveltech2/api/app/menus").then((result) => {
+      result.json().then((resp) => {
+        console.log(resp);
+        // console.warn(resp)
+        setMenus(resp);
+        setName(resp[0].name);
+        setUrl(resp[0].url);
+        setHeadId(resp[0].headID);
+        setId(resp[0].id);
+      });
+    });
   }
 
   function deleteMenu(id) {
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems/" + id, {
+    fetch("http://192.168.0.111/traveltech2/api/app/menus/" + id, {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
         console.warn(resp);
-        getmenuItemss();
+        getmenus();
       });
     });
   }
   function seletMenu(id) {
     var data;
-    let item = menuItems.map((menu) => {
+    let item = menus.map((menu) => {
       if (menu.id == id) data = menu;
     });
     console.log(data);
     setName(data.name);
-    setDesc(data.desc);
-    setMenusId(data.menusID);
+    setUrl(data.url);
+    setHeadId(data.headID);
     setId(data.id);
   }
   function updateMenu() {
-    let item = { name, desc, menusId, id };
+    let item = { name, url, headID, id };
     console.warn("item", item);
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems/" + id, {
+    fetch("http://192.168.0.111/traveltech2/api/app/menus/" + id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -75,7 +76,7 @@ function App() {
     }).then((result) => {
       result.json().then((resp) => {
         console.warn(resp);
-        getmenuItemss();
+        getmenus();
       });
     });
   }
@@ -99,21 +100,52 @@ function App() {
   }));
   const classes = useStyles();
 
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
+
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
   return (
     <div className="App">
-      <h1>Update User Data With API </h1>
+      <Button onClick={handleClickOpen("body")}>Add Menu</Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <Up />
+      </Dialog>
+      <h1>Menu Update </h1>
       <table border="1" style={{ float: "left" }}>
         <tbody>
           <tr>
             <td>ID</td>
             <td>Name</td>
-            <td>Description</td>
+            <td>Url</td>
           </tr>
-          {menuItems.map((item, i) => (
+          {menus.map((item, i) => (
             <tr key={i}>
               <td>{item.id}</td>
               <td>{item.name}</td>
-              <td>{item.desc}</td>
+              <td>{item.url}</td>
 
               <td>
                 <button onClick={() => deleteMenu(item.id)}>Delete</button>
@@ -139,31 +171,20 @@ function App() {
           </div>
           <div className={classes.root}>
             <TextField
-              label="Description"
-              value={desc}
+              label="Url"
+              value={url}
               variant="outlined"
               onChange={(e) => {
-                setDesc(e.target.value);
+                setUrl(e.target.value);
               }}
             />
           </div>
           <br />
-          <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
-          <Select value={menusId} onChange={(e) => setMenusId(e.target.value)}>
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {menu.map((item) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
+
+          <input type="hidden" value={headID} name="headID" />
         </FormControl>
         <br />
-        <button onClick={updateMenu}>Update User</button>
+        <button onClick={updateMenu}>Update menu</button>
       </div>
     </div>
   );
