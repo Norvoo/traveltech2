@@ -21,7 +21,9 @@ export default function AcccessibleTable() {
   }, []);
   console.warn("data", data);
   async function getData() {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/drops");
+    let result = await fetch(
+      "http://192.168.0.111/traveltech2/api/app/menuItems"
+    );
     result = await result.json();
     console.log(result);
     setData(result);
@@ -29,7 +31,7 @@ export default function AcccessibleTable() {
   console.warn("data", data);
   async function deleteOperation(id) {
     let result = await fetch(
-      "http://192.168.0.111/traveltech2/api/app/drops/" + id,
+      "http://192.168.0.111/traveltech2/api/app/menuItems/" + id,
       { method: "delete" }
     );
     result = await result.json();
