@@ -123,6 +123,8 @@ function App() {
               }}
             />
           </div>
+        </FormControl>
+        <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>
             <TextField
               label="url"
@@ -133,8 +135,8 @@ function App() {
               }}
             />
           </div>
-          <br />
         </FormControl>
+        <br />
         <br />
         <button onClick={updateLink}>Update Link</button>
       </div>

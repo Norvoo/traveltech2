@@ -196,7 +196,6 @@ const AddUrl = () => {
               })}
             </Select>
           </FormControl>
-          ;
           <br />
           <button type="submit">Add</button>
         </div>

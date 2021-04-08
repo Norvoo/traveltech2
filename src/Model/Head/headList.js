@@ -51,23 +51,25 @@ export default function AcccessibleTable() {
   // console.warn("data", data);
   return (
     <TableContainer component={Paper}>
-      <TableContainer className={classes.table} aria-label="caption table">
+      <Table className={classes.table} aria-label="caption table">
         <TableBody>
           <TableRow key={data.id}>
-            {console.log(data.imageName)}
-            <img
-              className="img-size"
-              src={
-                "http://192.168.0.111/traveltech2/wwwroot/Images/" +
-                data.imageName
-              }
-            />
+            <TableCell>
+              {console.log(data.imageName)}
+              <img
+                className="img-size"
+                src={
+                  "http://192.168.0.111/traveltech2/wwwroot/Images/" +
+                  data.imageName
+                }
+              />
+            </TableCell>
             <TableCell>
               <Link to={"/updateList/" + data.id}>update</Link>
             </TableCell>
           </TableRow>
         </TableBody>
-      </TableContainer>
+      </Table>
     </TableContainer>
   );
 }

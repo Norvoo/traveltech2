@@ -169,6 +169,8 @@ function App() {
               }}
             />
           </div>
+        </FormControl>
+        <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>
             <TextField
               label="Url"
@@ -179,10 +181,10 @@ function App() {
               }}
             />
           </div>
-          <br />
-
-          <input type="hidden" value={headID} name="headID" />
         </FormControl>
+        <br />
+
+        <input type="hidden" value={headID} name="headID" />
         <br />
         <button onClick={updateMenu}>Update menu</button>
       </div>

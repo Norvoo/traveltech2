@@ -9,7 +9,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import TestUpdate from "./TestUpdate.js";
 import Kkk from "./Model/Head/update.js";
 
-import II from "./testdialog";
+// import II from "./testdialog";
 function App() {
   return (
     <div className="App">
@@ -17,7 +17,7 @@ function App() {
         <Navbar />
         <EDIT />
 
-        <II />
+        {/* <II /> */}
         <Route path="/update/:id">
           <TestUpdate />
         </Route>

@@ -114,7 +114,6 @@ function App() {
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.desc}</td>
-
               <td>
                 <button onClick={() => deleteMenu(item.id)}>Delete</button>
               </td>
@@ -137,6 +136,8 @@ function App() {
               }}
             />
           </div>
+        </FormControl>
+        <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>
             <TextField
               label="Description"
@@ -147,8 +148,9 @@ function App() {
               }}
             />
           </div>
-          <br />
-          <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+        </FormControl>
+        <br />
+        <FormControl variant="outlined" className={classes.formControl}>
           <Select value={menusId} onChange={(e) => setMenusId(e.target.value)}>
             <MenuItem value="">
               <em>None</em>

@@ -57,7 +57,6 @@ export default function AcccessibleTable() {
                 >
                   Delete
                 </Button>
-                ;
               </TableCell>
             </TableRow>
           ))}

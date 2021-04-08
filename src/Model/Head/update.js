@@ -18,9 +18,7 @@ function TestUpdate(props) {
     formData.append("imageFile", imageFile);
     formData.append("menus", menus);
     let result = await fetch(
-      "http://192.168.0.111/traveltech2/api/app/headupdate/" +
-        id +
-        "?_method=PUT",
+      "http://192.168.0.111/traveltech2/api/app/head/" + id + "?_method=PUT",
       {
         method: "Put",
         body: formData,
