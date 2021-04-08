@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  TextField,
-} from "@material-ui/core";
+import { FormControl, TextField, Dialog, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AddLink from "./AddLink.js";
 function App() {
   const [links, setLinks] = useState([]);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [id, setId] = useState(null);
-  console.warn("link", links);
   useEffect(() => {
     getLinks();
   }, []);
   function getLinks() {
     fetch("http://192.168.0.111/traveltech2/api/app/links").then((result) => {
       result.json().then((resp) => {
-        console.log(resp);
-        // console.warn(resp)
         setLinks(resp);
         setName(resp[0].name);
         setUrl(resp[0].url);
@@ -33,24 +26,23 @@ function App() {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
-        console.warn(resp);
         getLinks();
       });
     });
   }
   function seletMenu(id) {
     var data;
-    let item = menuItems.map((menu) => {
+    let item = links.map((menu) => {
       if (menu.id == id) data = menu;
     });
-    console.log(data);
+
     setName(data.name);
     setUrl(data.url);
     setId(data.id);
   }
   function updateLink() {
     let item = { name, url, id };
-    console.warn("item", item);
+
     fetch("http://192.168.0.111/traveltech2/api/app/links/" + id, {
       method: "PUT",
       headers: {
@@ -84,10 +76,30 @@ function App() {
     },
   }));
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="App">
-      <h1>Update User Data With API </h1>
+      <Button onClick={handleClickOpen("body")}>Add Link</Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <AddLink />
+      </Dialog>
+      <h1>Update Link </h1>
       <table border="1" style={{ float: "left" }}>
         <tbody>
           <tr>
@@ -95,8 +107,8 @@ function App() {
             <td>Name</td>
             <td>url</td>
           </tr>
-          {inks.map((item, i) => (
-            <tr key={i}>
+          {links.map((item) => (
+            <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.url}</td>

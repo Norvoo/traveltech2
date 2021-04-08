@@ -86,7 +86,7 @@ export default function NavBar() {
   return (
     <div className="header">
       <nav className="navs">
-        <Link to={"/#"} key={data.id}>
+        <a href="#" key={data.id}>
           <img
             style={{ width: 100 }}
             src={
@@ -94,7 +94,7 @@ export default function NavBar() {
               data.imageName
             }
           />
-        </Link>
+        </a>
         <ul>
           {data.menus.map((it) => {
             if (it.menuItems) {
@@ -102,8 +102,7 @@ export default function NavBar() {
               if (it.menuItems instanceof Array && it.menuItems.length > 0) {
                 return (
                   <li data-ismenuitems="true" key={it.id}>
-                    <a
-                      href="#"
+                    <div
                       ref={anchorRef}
                       // aria-controls={open ? "menu-list-grow" : undefined}
                       // aria-haspopup="true"
@@ -112,7 +111,7 @@ export default function NavBar() {
                     >
                       {it.name}
                       <ExpandMoreIcon />
-                    </a>
+                    </div>
                     <Popper
                       open={open}
                       anchorEl={anchorRef.current}

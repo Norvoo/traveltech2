@@ -5,36 +5,51 @@ import {
   MenuItem,
   Select,
   TextField,
+  Dialog,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AddMenuItem from "./AddDrop.js";
 function App() {
   const [menuItems, setMenuItems] = useState([]);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [menusId, setMenusId] = useState("");
   const [id, setId] = useState(null);
-
+  const [links, setLin] = useState([]);
+  const getValue = (e) => {
+    let datalink = link;
+    datalink.push({ id: parseInt(e.target.value) });
+    setLin(datalink);
+  };
   const [menu, setMenu] = useState([]);
   useEffect(async () => {
     let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
     result = await result.json();
-    console.log(result);
+
     setMenu(result);
   }, []);
-  console.warn("menu", menu);
+
   useEffect(() => {
     getmenuItemss();
   }, []);
+  const [link, setLink] = useState([]);
+  useEffect(async () => {
+    let result = await fetch("http://192.168.0.111/traveltech2/api/app/links");
+    result = await result.json();
+
+    setLink(result);
+  }, []);
+
   function getmenuItemss() {
     fetch("http://192.168.0.111/traveltech2/api/app/menuItems").then(
       (result) => {
         result.json().then((resp) => {
-          console.log(resp);
-          // console.warn(resp)
           setMenuItems(resp);
           setName(resp[0].name);
           setDesc(resp[0].desc);
           setMenusId(resp[0].menusID);
+          setLin(resp[0].links);
           setId(resp[0].id);
         });
       }
@@ -46,7 +61,6 @@ function App() {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
-        console.warn(resp);
         getmenuItemss();
       });
     });
@@ -56,15 +70,15 @@ function App() {
     let item = menuItems.map((menu) => {
       if (menu.id == id) data = menu;
     });
-    console.log(data);
     setName(data.name);
     setDesc(data.desc);
     setMenusId(data.menusID);
+    setLin(data.links);
     setId(data.id);
   }
   function updateMenu() {
-    let item = { name, desc, menusId, id };
-    console.warn("item", item);
+    let item = { name, desc, menusId, id, links };
+
     fetch("http://192.168.0.111/traveltech2/api/app/menuItems/" + id, {
       method: "PUT",
       headers: {
@@ -74,7 +88,6 @@ function App() {
       body: JSON.stringify(item),
     }).then((result) => {
       result.json().then((resp) => {
-        console.warn(resp);
         getmenuItemss();
       });
     });
@@ -98,10 +111,30 @@ function App() {
     },
   }));
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="App">
-      <h1>Update User Data With API </h1>
+      <Button onClick={handleClickOpen("body")}>Add Menu Item</Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <AddMenuItem />
+      </Dialog>
+      <h1>Update Menu Item</h1>
       <table border="1" style={{ float: "left" }}>
         <tbody>
           <tr>
@@ -110,7 +143,7 @@ function App() {
             <td>Description</td>
           </tr>
           {menuItems.map((item, i) => (
-            <tr key={i}>
+            <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.desc}</td>
@@ -129,7 +162,7 @@ function App() {
           <div className={classes.root}>
             <TextField
               label="Title"
-              value={name}
+              value={name || ""}
               variant="outlined"
               onChange={(e) => {
                 setName(e.target.value);
@@ -141,7 +174,7 @@ function App() {
           <div className={classes.root}>
             <TextField
               label="Description"
-              value={desc}
+              value={desc || ""}
               variant="outlined"
               onChange={(e) => {
                 setDesc(e.target.value);
@@ -164,6 +197,39 @@ function App() {
             })}
           </Select>
         </FormControl>
+        {link.map((i) => {
+          var has = links.filter((li) => {
+            if (li.id == i.id) {
+              return li;
+            }
+          });
+          if (has.length > 0) {
+            return (
+              <>
+                <input
+                  key={i.id}
+                  type="checkbox"
+                  checked="true"
+                  onChange={(e) => getValue(e)}
+                  value={i.id || ""}
+                />
+                <label>{i.name}</label>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <input
+                  key={i.id}
+                  type="checkbox"
+                  onChange={(e) => getValue(e)}
+                  value={i.id || ""}
+                />
+                <label>{i.name}</label>
+              </>
+            );
+          }
+        })}
         <br />
         <button onClick={updateMenu}>Update User</button>
       </div>
@@ -171,3 +237,14 @@ function App() {
   );
 }
 export default App;
+// onChange={(e) => {
+//   let checked = e.target.checked;
+//   setLin(
+//     links.map((data) => {
+//       if (i.id == data.id) {
+//         data = true;
+//       }
+//       return data;
+//     })
+//   );
+// }}

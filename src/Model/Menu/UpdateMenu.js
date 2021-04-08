@@ -21,18 +21,16 @@ function App() {
   useEffect(async () => {
     let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
     result = await result.json();
-    console.log(result);
+
     setHead(result);
   }, []);
-  console.warn("head", head);
+
   useEffect(() => {
     getmenus();
   }, []);
   function getmenus() {
     fetch("http://192.168.0.111/traveltech2/api/app/menus").then((result) => {
       result.json().then((resp) => {
-        console.log(resp);
-        // console.warn(resp)
         setMenus(resp);
         setName(resp[0].name);
         setUrl(resp[0].url);
@@ -47,7 +45,6 @@ function App() {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
-        console.warn(resp);
         getmenus();
       });
     });
@@ -75,7 +72,6 @@ function App() {
       body: JSON.stringify(item),
     }).then((result) => {
       result.json().then((resp) => {
-        console.warn(resp);
         getmenus();
       });
     });
@@ -141,8 +137,8 @@ function App() {
             <td>Name</td>
             <td>Url</td>
           </tr>
-          {menus.map((item, i) => (
-            <tr key={i}>
+          {menus.map((item) => (
+            <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.url}</td>
@@ -184,7 +180,7 @@ function App() {
         </FormControl>
         <br />
 
-        <input type="hidden" value={headID} name="headID" />
+        <input type="hidden" value={headID || ""} name="headID" />
         <br />
         <button onClick={updateMenu}>Update menu</button>
       </div>

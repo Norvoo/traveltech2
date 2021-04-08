@@ -42,7 +42,7 @@ function TestUpdate(props) {
           "http://192.168.0.111/traveltech2/wwwroot/Images/" + data.imageName
         }
       />
-      <input type="hidden" value={menus} name="menus" />
+      <input type="hidden" value={menus || ""} name="menus" />
       <button onClick={() => editTest(data.id)}>edit</button>
     </div>
   );

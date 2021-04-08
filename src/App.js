@@ -1,11 +1,8 @@
 import "./App.css";
 import Navbar from "./Components/Navbar/NavBar";
-import AddMenu from "./Model/Menu/AddMenu.js";
-import AddDrop from "./Model/Drop/AddDrop";
-import ListDrop from "./Model/Drop/droplist.js";
+import AddDrop from "./Model/MenuItem/AddDrop";
 import EDIT from "./Components/ADMINEDITCONTROl/EdidButton.js";
 import { BrowserRouter, Route } from "react-router-dom";
-
 import TestUpdate from "./TestUpdate.js";
 import Kkk from "./Model/Head/update.js";
 
