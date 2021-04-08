@@ -4,12 +4,16 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 816474cd44fd6c6404a3acd495cbd2ec6b4f627e
 import MenuList from "../../Model/Menu/UpdateMenu.js";
-import DropAdd from "../../Model/Drop/AddDrop.js";
-import DropList from "../../Model/Drop/droplist.js";
-import Update from "../../Model/Drop/list.js";
+import DropAdd from "../../Model/MenuItem/AddDrop.js";
+
+import Update from "../../Model/MenuItem/list.js";
 import HeadLogo from "../../Model/Head/headList";
-import Headupdate from "../../Model/Head/update";
+import ListLink from "../../Model/Iinks/ListLink.js";
 import { BrowserRouter, Route } from "react-router-dom";
 // import Form from "./list";
 // import List from "./table";
@@ -41,10 +45,7 @@ export default function SimpleAccordion() {
               <Typography>Drop</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <DropAdd />
-            </AccordionDetails>
-            <AccordionDetails>
-              <DropList />
+              <Update />
             </AccordionDetails>
           </Accordion>
           <AccordionDetails>
@@ -57,10 +58,14 @@ export default function SimpleAccordion() {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>Logo Image</Typography>
+            <Typography>Link</Typography>
           </AccordionSummary>
           <AccordionDetails>
+<<<<<<< HEAD
             <Update />
+=======
+            <ListLink />
+>>>>>>> 816474cd44fd6c6404a3acd495cbd2ec6b4f627e
           </AccordionDetails>
         </Accordion>
         <Accordion>

@@ -63,7 +63,7 @@ export default function AcccessibleTable() {
               <TableCell>
                 <Button
                   size="small"
-                  variant="text"
+                  variant="outlined"
                   onClick={() => deleteOperation(row.id)}
                 >
                   Delete
