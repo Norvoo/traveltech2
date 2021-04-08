@@ -27,7 +27,6 @@ function App() {
       });
     });
   }
-
   function deleteMenu(id) {
     fetch("http://192.168.0.111/traveltech2/api/app/links/" + id, {
       method: "DELETE",
@@ -84,7 +83,6 @@ function App() {
     },
   }));
   const classes = useStyles();
-
   return (
     <div className="App">
       <h1>Update User Data With API </h1>
@@ -100,7 +98,6 @@ function App() {
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.url}</td>
-
               <td>
                 <button onClick={() => deleteMenu(item.id)}>Delete</button>
               </td>
