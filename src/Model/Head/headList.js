@@ -19,14 +19,6 @@ const useStyles = makeStyles({
 
 export default function AcccessibleTable() {
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = (scrollType) => () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   const descriptionElementRef = React.useRef(null);
   React.useEffect(() => {
     if (open) {
@@ -65,7 +57,11 @@ export default function AcccessibleTable() {
               />
             </TableCell>
             <TableCell>
-              <Link to={"/updateList/" + data.id}>update</Link>
+              <Button variant="contained" color="inherit">
+                <Link className="a-links" to={"/updateList/" + data.id}>
+                  update
+                </Link>
+              </Button>
             </TableCell>
           </TableRow>
         </TableBody>

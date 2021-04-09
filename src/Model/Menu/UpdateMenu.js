@@ -10,6 +10,14 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { makeStyles } from "@material-ui/core/styles";
 import Up from "./AddMenu.js";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { styled } from "@material-ui/core/styles";
 function App() {
   const [menus, setMenus] = useState([]);
   const [name, setName] = useState("");
@@ -81,9 +89,12 @@ function App() {
       "& > * ": {
         margin: theme.spacing(1),
         minWidth: "100%",
-        fontSize: "1rem",
+        fontSize: "rem",
         background: "#d8d7d7",
       },
+    },
+    table: {
+      minWidth: "100%",
     },
     formControl: {
       margin: theme.spacing(1),
@@ -119,7 +130,13 @@ function App() {
   }, [open]);
   return (
     <div className="App">
-      <Button onClick={handleClickOpen("body")}>Add Menu</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen("body")}
+      >
+        Add Menu
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -130,29 +147,42 @@ function App() {
         <Up />
       </Dialog>
       <h1>Menu Update </h1>
-      <table border="1" style={{ float: "left" }}>
-        <tbody>
-          <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Url</td>
-          </tr>
-          {menus.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.url}</td>
-
-              <td>
-                <button onClick={() => deleteMenu(item.id)}>Delete</button>
-              </td>
-              <td>
-                <button onClick={() => seletMenu(item.id)}>Update</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table className={classes.root} aria-label="caption table">
+          <TableHead>
+            <TableCell>Menu </TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableHead>
+          <TableBody>
+            {menus.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.url}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => deleteMenu(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => seletMenu(item.id)}
+                  >
+                    Update
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <div>
         <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>

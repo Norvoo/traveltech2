@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { SettingsRemoteRounded } from "@material-ui/icons";
 const AddPartner = () => {
   const [data, setData] = useState([]);
   const [headID, setHeadId] = useState(null);
@@ -13,7 +14,12 @@ const AddPartner = () => {
   }, []);
   const [name, setName] = useState("");
   const [url, setDescription] = useState("");
-
+  const [menu, setMenu] = useState([]);
+  function getmenus() {
+    let result = fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    result = result.json();
+    setMenu(result);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, url, headID };
@@ -24,6 +30,7 @@ const AddPartner = () => {
       body: JSON.stringify(partner),
     }).then(() => {
       console.log("new Menu");
+      getmenus();
     });
     alert("new Menu");
   };

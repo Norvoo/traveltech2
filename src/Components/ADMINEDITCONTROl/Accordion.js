@@ -4,16 +4,15 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import MenuList from "../../Model/Menu/UpdateMenu.js";
-import DropAdd from "../../Model/MenuItem/AddDrop.js";
-
 import Update from "../../Model/MenuItem/list.js";
 import HeadLogo from "../../Model/Head/headList";
 import ListLink from "../../Model/Iinks/ListLink.js";
-import { BrowserRouter, Route } from "react-router-dom";
-// import Form from "./list";
-// import List from "./table";
+import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
+import "../../App.css";
+import LinkIcon from "@material-ui/icons/Link";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 export default function SimpleAccordion() {
   return (
     <div>
@@ -23,6 +22,7 @@ export default function SimpleAccordion() {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
+          <ViewHeadlineIcon />
           <Typography>Header</Typography>
         </AccordionSummary>
         <Accordion>
@@ -31,6 +31,7 @@ export default function SimpleAccordion() {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
+            <MenuOpenIcon />
             <Typography>Menu</Typography>
           </AccordionSummary>
           <Accordion>
@@ -39,8 +40,22 @@ export default function SimpleAccordion() {
               aria-controls="panel2a-content"
               id="panel2a-header"
             >
+              <ArrowDropDownIcon />
               <Typography>Drop</Typography>
             </AccordionSummary>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <LinkIcon />
+                <Typography>Link</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <ListLink className="accorlogo" />
+              </AccordionDetails>
+            </Accordion>
             <AccordionDetails>
               <Update />
             </AccordionDetails>
@@ -49,18 +64,7 @@ export default function SimpleAccordion() {
             <MenuList />
           </AccordionDetails>
         </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Link</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ListLink />
-          </AccordionDetails>
-        </Accordion>
+
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../aoo.css";
 import { Link } from "react-router-dom";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { MdExpandMore } from "react-icons/md";
 import {
   ClickAwayListener,
   Grow,
@@ -110,7 +110,7 @@ export default function NavBar() {
                       className="a-links"
                     >
                       {it.name}
-                      <ExpandMoreIcon />
+                      <MdExpandMore />
                     </div>
                     <Popper
                       open={open}

@@ -10,6 +10,13 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddMenuItem from "./AddDrop.js";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 function App() {
   const [menuItems, setMenuItems] = useState([]);
   const [name, setName] = useState("");
@@ -17,12 +24,22 @@ function App() {
   const [menusId, setMenusId] = useState("");
   const [id, setId] = useState(null);
   const [links, setLin] = useState([]);
+  const [link, setLink] = useState([]);
+  const [menu, setMenu] = useState([]);
   const getValue = (e) => {
-    let datalink = link;
-    datalink.push({ id: parseInt(e.target.value) });
+    var val = e.target.checked;
+    let datalink = links;
+    if (val == true) {
+      datalink.push({ id: parseInt(e.target.value) });
+    } else {
+      datalink = datalink.filter((link) => {
+        if (link.id != e.target.value) {
+          return link;
+        }
+      });
+    }
     setLin(datalink);
   };
-  const [menu, setMenu] = useState([]);
   useEffect(async () => {
     let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
     result = await result.json();
@@ -33,7 +50,6 @@ function App() {
   useEffect(() => {
     getmenuItemss();
   }, []);
-  const [link, setLink] = useState([]);
   useEffect(async () => {
     let result = await fetch("http://192.168.0.111/traveltech2/api/app/links");
     result = await result.json();
@@ -86,11 +102,8 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(item),
-    }).then((result) => {
-      result.json().then((resp) => {
-        getmenuItemss();
-      });
     });
+    getmenuItemss();
   }
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -135,7 +148,44 @@ function App() {
         <AddMenuItem />
       </Dialog>
       <h1>Update Menu Item</h1>
-      <table border="1" style={{ float: "left" }}>
+      <TableContainer component={Paper}>
+        <Table className={classes.root} aria-label="caption table">
+          <TableHead>
+            <TableCell>Title</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableHead>
+          <TableBody>
+            {menuItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.desc}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => deleteMenu(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => seletMenu(item.id)}
+                  >
+                    Update
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* <table border="1" style={{ float: "left" }}>
         <tbody>
           <tr>
             <td>ID</td>
@@ -156,7 +206,7 @@ function App() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
       <div>
         <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>
@@ -197,39 +247,43 @@ function App() {
             })}
           </Select>
         </FormControl>
-        {link.map((i) => {
-          var has = links.filter((li) => {
-            if (li.id == i.id) {
-              return li;
+        <div className="inputGrid">
+          {link.map((i) => {
+            var has = links.filter((li) => {
+              if (li.id == i.id) {
+                return li;
+              }
+            });
+            if (has.length != 0) {
+              return (
+                <div>
+                  <input
+                    key={i.id}
+                    type="checkbox"
+                    checked={true}
+                    onChange={(e) => getValue(e)}
+                    value={i.id || ""}
+                  />
+                  <label>{i.name}</label>
+                </div>
+              );
+            } else {
+              console.log("its false");
+              return (
+                <div>
+                  <input
+                    key={i.id}
+                    type="checkbox"
+                    checked={false}
+                    onChange={(e) => getValue(e)}
+                    value={i.id || ""}
+                  />
+                  <label>{i.name}</label>
+                </div>
+              );
             }
-          });
-          if (has.length > 0) {
-            return (
-              <>
-                <input
-                  key={i.id}
-                  type="checkbox"
-                  checked="true"
-                  onChange={(e) => getValue(e)}
-                  value={i.id || ""}
-                />
-                <label>{i.name}</label>
-              </>
-            );
-          } else {
-            return (
-              <>
-                <input
-                  key={i.id}
-                  type="checkbox"
-                  onChange={(e) => getValue(e)}
-                  value={i.id || ""}
-                />
-                <label>{i.name}</label>
-              </>
-            );
-          }
-        })}
+          })}
+        </div>
         <br />
         <button onClick={updateMenu}>Update User</button>
       </div>
