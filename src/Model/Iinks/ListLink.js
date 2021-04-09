@@ -75,8 +75,7 @@ function App() {
     },
   }));
   const classes = useStyles();
-<<<<<<< HEAD
-=======
+
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
 
@@ -88,7 +87,6 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
->>>>>>> 816474cd44fd6c6404a3acd495cbd2ec6b4f627e
   return (
     <div className="App">
       <Button onClick={handleClickOpen("body")}>Add Link</Button>

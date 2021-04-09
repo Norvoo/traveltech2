@@ -4,10 +4,6 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-<<<<<<< HEAD
-=======
-
->>>>>>> 816474cd44fd6c6404a3acd495cbd2ec6b4f627e
 import MenuList from "../../Model/Menu/UpdateMenu.js";
 import DropAdd from "../../Model/MenuItem/AddDrop.js";
 
@@ -61,11 +57,7 @@ export default function SimpleAccordion() {
             <Typography>Link</Typography>
           </AccordionSummary>
           <AccordionDetails>
-<<<<<<< HEAD
-            <Update />
-=======
             <ListLink />
->>>>>>> 816474cd44fd6c6404a3acd495cbd2ec6b4f627e
           </AccordionDetails>
         </Accordion>
         <Accordion>
