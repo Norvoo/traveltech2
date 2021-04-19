@@ -41,7 +41,6 @@ function App() {
         value="change"
         onClick={changeColorHeader}
       />
-      {/* hjhjj */}
     </div>
   );
 }
