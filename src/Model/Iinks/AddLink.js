@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
+import "../../App.css";
 const AddLink = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
@@ -10,7 +11,7 @@ const AddLink = () => {
     e.preventDefault();
     const partner = { name, url };
 
-    fetch("http://192.168.0.111/traveltech2/api/app/links", {
+    fetch("http://192.168.0.109/travel/api/app/links", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(partner),
@@ -32,7 +33,7 @@ const AddLink = () => {
 
   const classes = useStyles();
   return (
-    <div>
+    <div className="add-item">
       <h1>Add Menu</h1>
       <form onSubmit={handleSubmit}>
         <div className="col-sm-6 offset-sm-4">

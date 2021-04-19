@@ -8,7 +8,7 @@ import {
   Dialog,
   Button,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, styled } from "@material-ui/core/styles";
 import AddMenuItem from "./AddDrop.js";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -41,7 +41,7 @@ function App() {
     setLin(datalink);
   };
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    let result = await fetch("http://192.168.0.109/travel/api/app/menus");
     result = await result.json();
 
     setMenu(result);
@@ -51,29 +51,27 @@ function App() {
     getmenuItemss();
   }, []);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/links");
+    let result = await fetch("http://192.168.0.109/travel/api/app/links");
     result = await result.json();
 
     setLink(result);
   }, []);
 
   function getmenuItemss() {
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems").then(
-      (result) => {
-        result.json().then((resp) => {
-          setMenuItems(resp);
-          setName(resp[0].name);
-          setDesc(resp[0].desc);
-          setMenusId(resp[0].menusID);
-          setLin(resp[0].links);
-          setId(resp[0].id);
-        });
-      }
-    );
+    fetch("http://192.168.0.109/travel/api/app/menuItems").then((result) => {
+      result.json().then((resp) => {
+        setMenuItems(resp);
+        setName(resp[0].name);
+        setDesc(resp[0].desc);
+        setMenusId(resp[0].menusID);
+        setLin(resp[0].links);
+        setId(resp[0].id);
+      });
+    });
   }
 
   function deleteMenu(id) {
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems/" + id, {
+    fetch("http://192.168.0.109/travel/api/app/menuItems/" + id, {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
@@ -95,7 +93,7 @@ function App() {
   function updateMenu() {
     let item = { name, desc, menusId, id, links };
 
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems/" + id, {
+    fetch("http://192.168.0.109/travel/api/app/menuItems/" + id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -135,9 +133,22 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
+  const MyButton = styled(Button)({
+    background: "linear-gradient(45deg, #4e6cf1 30%, #794cf5 50%)",
+    border: 0,
+    borderRadius: 3,
+
+    color: "white",
+  });
   return (
     <div className="App">
-      <Button onClick={handleClickOpen("body")}>Add Menu Item</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen("body")}
+      >
+        Add Menu Item
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -185,28 +196,6 @@ function App() {
         </Table>
       </TableContainer>
 
-      {/* <table border="1" style={{ float: "left" }}>
-        <tbody>
-          <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Description</td>
-          </tr>
-          {menuItems.map((item, i) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.desc}</td>
-              <td>
-                <button onClick={() => deleteMenu(item.id)}>Delete</button>
-              </td>
-              <td>
-                <button onClick={() => seletMenu(item.id)}>Update</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
       <div>
         <FormControl variant="outlined" className={classes.formControl}>
           <div className={classes.root}>
@@ -285,7 +274,7 @@ function App() {
           })}
         </div>
         <br />
-        <button onClick={updateMenu}>Update User</button>
+        <MyButton onClick={updateMenu}>Update menu item</MyButton>
       </div>
     </div>
   );

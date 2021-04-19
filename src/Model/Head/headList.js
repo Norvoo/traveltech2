@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import "../../App.css";
-import Up from "../Head/update.js";
+
 import { BrowserRouter, Route } from "react-router-dom";
 const useStyles = makeStyles({
   table: {
@@ -35,8 +35,9 @@ export default function AcccessibleTable() {
   }, []);
   // console.warn("data", data);
   async function getData() {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
-    result = await result.json();
+    let result = await fetch("http://192.168.0.109/travel/api/app/head");
+
+    http: result = await result.json();
     //console.log(result);
     setData(result);
   }
@@ -51,8 +52,7 @@ export default function AcccessibleTable() {
               <img
                 className="img-size"
                 src={
-                  "http://192.168.0.111/traveltech2/wwwroot/Images/" +
-                  data.imageName
+                  "http://192.168.0.109/travel/wwwroot/Images/" + data.imageName
                 }
               />
             </TableCell>

@@ -1,36 +1,35 @@
 import { useState, useEffect } from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { FormControl, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { SettingsRemoteRounded } from "@material-ui/icons";
+import "../../App.css";
 const AddPartner = () => {
   const [data, setData] = useState([]);
   const [headID, setHeadId] = useState(null);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app");
+    let result = await fetch("http://192.168.0.109/travel/api/app");
     result = await result.json();
     console.log(result);
     setHeadId(result["headID"]);
     setData(result);
   }, []);
   const [name, setName] = useState("");
-  const [url, setDescription] = useState("");
-  const [menu, setMenu] = useState([]);
-  function getmenus() {
-    let result = fetch("http://192.168.0.111/traveltech2/api/app/menus");
-    result = result.json();
-    setMenu(result);
-  }
+  const [url, setUrl] = useState("");
+  const clearState = () => {
+    setName("");
+    setUrl("");
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, url, headID };
 
-    fetch("http://192.168.0.111/traveltech2/api/app/menus", {
+    fetch("http://192.168.0.109/travel/api/app/menus", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(partner),
     }).then(() => {
       console.log("new Menu");
-      getmenus();
+      clearState();
     });
     alert("new Menu");
   };
@@ -47,40 +46,48 @@ const AddPartner = () => {
 
   const classes = useStyles();
   return (
-    <div>
+    <div className="add-item">
       <h1>Add Menu</h1>
       <form onSubmit={handleSubmit}>
         <div className="col-sm-6 offset-sm-4">
           <br />
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            name="name"
-            placeholder="Partners"
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <div className={classes.root}>
+              <TextField
+                label="Menu Name"
+                value={name}
+                variant="outlined"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+          </FormControl>
           <br />
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={url}
-            onChange={(e) => setDescription(e.target.value)}
-            name="description"
-            placeholder="Description"
-          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <div className={classes.root}>
+              <TextField
+                label="Url"
+                value={url}
+                variant="outlined"
+                onChange={(e) => setUrl(e.target.value)}
+                name="description"
+              />
+            </div>
+          </FormControl>
+
           <br />
           <input
             type="hidden"
             required
             className="form-control"
-            value={headID}
+            value={headID || ""}
             name="headID"
           />
 
-          <button type="submit">Add</button>
+          <Button variant="contained" color="primary" type="submit">
+            Add
+          </Button>
         </div>
       </form>
     </div>

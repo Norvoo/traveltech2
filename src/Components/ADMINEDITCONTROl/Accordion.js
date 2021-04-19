@@ -6,13 +6,16 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MenuList from "../../Model/Menu/UpdateMenu.js";
 import Update from "../../Model/MenuItem/list.js";
-import HeadLogo from "../../Model/Head/headList";
+import HeadLogo from "../../Model/Head/update.js";
 import ListLink from "../../Model/Iinks/ListLink.js";
 import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
 import "../../App.css";
 import LinkIcon from "@material-ui/icons/Link";
+import Footer from "../../Model/Footer/Footer.js";
+import FooterIcons from "../../Model/Footer/FooterIcon/FooterIconsList.js";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import FooterMenu from "../../Model/Footer/FooterMenu/FooterMenuList";
 export default function SimpleAccordion() {
   return (
     <div>
@@ -32,7 +35,7 @@ export default function SimpleAccordion() {
             id="panel2a-header"
           >
             <MenuOpenIcon />
-            <Typography>Menu</Typography>
+            <Typography>Menus</Typography>
           </AccordionSummary>
           <Accordion>
             <AccordionSummary
@@ -41,7 +44,7 @@ export default function SimpleAccordion() {
               id="panel2a-header"
             >
               <ArrowDropDownIcon />
-              <Typography>Drop</Typography>
+              <Typography>Menu Items</Typography>
             </AccordionSummary>
             <Accordion>
               <AccordionSummary
@@ -50,7 +53,7 @@ export default function SimpleAccordion() {
                 id="panel2a-header"
               >
                 <LinkIcon />
-                <Typography>Link</Typography>
+                <Typography>Links</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <ListLink className="accorlogo" />
@@ -84,8 +87,44 @@ export default function SimpleAccordion() {
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
-          <Typography>Footer</Typography>
+          <Typography>Footer Items</Typography>
         </AccordionSummary>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel3a-content"
+            id="panel3a-header"
+          >
+            <Typography>Footer</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Footer />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel3a-content"
+            id="panel3a-header"
+          >
+            <Typography>Footer Icons</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FooterIcons />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel3a-content"
+            id="panel3a-header"
+          >
+            <Typography>Footer Menus</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <FooterMenu />
+          </AccordionDetails>
+        </Accordion>
       </Accordion>
     </div>
   );

@@ -27,7 +27,7 @@ function App() {
 
   const [head, setHead] = useState([]);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
+    let result = await fetch("http://192.168.0.109/travel/api/app/head");
     result = await result.json();
 
     setHead(result);
@@ -37,7 +37,7 @@ function App() {
     getmenus();
   }, []);
   function getmenus() {
-    fetch("http://192.168.0.111/traveltech2/api/app/menus").then((result) => {
+    fetch("http://192.168.0.109/travel/api/app/menus").then((result) => {
       result.json().then((resp) => {
         setMenus(resp);
         setName(resp[0].name);
@@ -49,7 +49,7 @@ function App() {
   }
 
   function deleteMenu(id) {
-    fetch("http://192.168.0.111/traveltech2/api/app/menus/" + id, {
+    fetch("http://192.168.0.109/travel/api/app/menus/" + id, {
       method: "DELETE",
     }).then((result) => {
       result.json().then((resp) => {
@@ -68,10 +68,11 @@ function App() {
     setHeadId(data.headID);
     setId(data.id);
   }
+
   function updateMenu() {
     let item = { name, url, headID, id };
     console.warn("item", item);
-    fetch("http://192.168.0.111/traveltech2/api/app/menus/" + id, {
+    fetch("http://192.168.0.109/travel/api/app/menus/" + id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -128,6 +129,13 @@ function App() {
       }
     }
   }, [open]);
+  const MyButton = styled(Button)({
+    background: "linear-gradient(45deg, #4e6cf1 30%, #794cf5 50%)",
+    border: 0,
+    borderRadius: 3,
+
+    color: "white",
+  });
   return (
     <div className="App">
       <Button
@@ -212,7 +220,7 @@ function App() {
 
         <input type="hidden" value={headID || ""} name="headID" />
         <br />
-        <button onClick={updateMenu}>Update menu</button>
+        <MyButton onClick={updateMenu}>Update menu</MyButton>
       </div>
     </div>
   );

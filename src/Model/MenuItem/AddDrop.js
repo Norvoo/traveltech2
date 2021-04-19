@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Button,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import "../../App.css";
 const AddUrl = () => {
   const [data, setData] = useState([]);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/menus");
+    let result = await fetch("http://192.168.0.109/travel/api/app/menus");
     result = await result.json();
     console.log(result);
     setData(result);
   }, []);
   const [link, setLink] = useState([]);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/links");
+    let result = await fetch("http://192.168.0.109/travel/api/app/links");
     result = await result.json();
     console.log(result);
     setLink(result);
@@ -31,7 +39,7 @@ const AddUrl = () => {
     e.preventDefault();
     const partner = { name, desc, menusID, links };
 
-    fetch("http://192.168.0.111/traveltech2/api/app/menuItems", {
+    fetch("http://192.168.0.109/travel/api/app/menuItems", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(partner),
@@ -54,33 +62,14 @@ const AddUrl = () => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className="add-item">
       <h1>Add Drop</h1>
       <form onSubmit={handleSubmit}>
         <div className="col-sm-6 offset-sm-4">
-          <br />
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            name="name"
-            placeholder="UrL Source"
-          />
-          <br />
-          <textarea
-            type="text"
-            required
-            className="form-control"
-            value={desc}
-            onChange={(e) => setDescription(e.target.value)}
-            name="description"
-            placeholder="Description"
-          />
-          <br />
           <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Select
+            </InputLabel>
             <Select value={menusID} onChange={(e) => setMenuId(e.target.value)}>
               <MenuItem value="">
                 <em>None</em>
@@ -94,22 +83,48 @@ const AddUrl = () => {
               })}
             </Select>
           </FormControl>
+          <br />
+          <TextField
+            variant="outlined"
+            type="text"
+            required
+            style={{ with: 180 }}
+            className="form-control inpute"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            name="name"
+            placeholder="Menu item"
+          />
+          <br />
+          <br />
+          <textarea
+            type="text"
+            required
+            className="form-control"
+            value={desc || ""}
+            onChange={(e) => setDescription(e.target.value)}
+            name="description"
+            placeholder="Description"
+          />
+          <br />
+
           {link.map((i) => {
             return (
-              <>
+              <div className="inputGrid">
                 <input
                   key={i.id}
                   type="checkbox"
                   onChange={(e) => getValue(e)}
-                  value={i.id}
+                  value={i.id || ""}
                 />
                 <label>{i.name}</label>
-              </>
+              </div>
             );
           })}
-
           <br />
-          <button type="submit">Add</button>
+          <Button variant="contained" color="primary" type="submit">
+            Add
+          </Button>
         </div>
       </form>
     </div>

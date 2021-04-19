@@ -3,10 +3,15 @@ import Navbar from "./Components/Navbar/NavBar";
 import AddDrop from "./Model/MenuItem/AddDrop";
 import EDIT from "./Components/ADMINEDITCONTROl/EdidButton.js";
 import { BrowserRouter, Route } from "react-router-dom";
-import TestUpdate from "./TestUpdate.js";
+
 import Kkk from "./Model/Head/update.js";
 
-// import II from "./testdialog";
+import Ftr from "./Components/Footer/Footer";
+function changeColorHeader() {
+  let color = document.getElementById("colorInput").value;
+  document.getElementById("headerId").style.backgroundColor = color;
+  document.getElementById("colorInputText").value = color;
+}
 function App() {
   return (
     <div className="App">
@@ -14,10 +19,11 @@ function App() {
         <Navbar />
         <EDIT />
 
-        {/* <II /> */}
-        <Route path="/update/:id">
+        {/* <FIcon /> */}
+
+        {/* <Route path="/update/:id">
           <TestUpdate />
-        </Route>
+        </Route> */}
         <Route path="/updateList/:id">
           <Kkk />
         </Route>
@@ -25,7 +31,16 @@ function App() {
         <Route path="/drop/add">
           <AddDrop />
         </Route>
+        <Ftr />
       </BrowserRouter>
+      <input type="text" id="colorInputText" />
+      <input type="color" id="colorInput" />
+      <input
+        type="button"
+        id="colorButton"
+        value="change"
+        onClick={changeColorHeader}
+      />
     </div>
   );
 }

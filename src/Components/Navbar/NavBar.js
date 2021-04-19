@@ -45,7 +45,7 @@ export default function NavBar() {
   // const [menus, setMenu] = useState([]);
   useEffect(async () => {
     console.log("fetched");
-    let result = await fetch("http://192.168.0.111/traveltech2/api/app/head");
+    let result = await fetch("http://192.168.0.109/travel/api/app/head");
     result = await result.json();
     setData(result);
   }, []);
@@ -53,18 +53,13 @@ export default function NavBar() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggle = (e) => {
+    setOpen(e.currentTarget);
   };
 
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
     setOpen(false);
   };
-
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -81,22 +76,23 @@ export default function NavBar() {
 
     prevOpen.current = open;
   }, [open]);
-
+  function changeColorHeader() {
+    let color = document.getElementById("colorInput").value;
+    document.getElementById("headerId").style.backgroundColor = color;
+    document.getElementById("colorInputText").value = color;
+  }
   console.log("called");
   return (
     <div className="header">
-      <nav className="navs">
+      <nav className="navs" id="headerId">
         <a href="#" key={data.id}>
           <img
             style={{ width: 100 }}
-            src={
-              "http://192.168.0.111/traveltech2/wwwroot/Images/" +
-              data.imageName
-            }
+            src={"http://192.168.0.109/travel/wwwroot/Images/" + data.imageName}
           />
         </a>
         <ul>
-          {data.menus.map((it) => {
+          {data.menus.map((it, i) => {
             if (it.menuItems) {
               console.log(it.menuItems);
               if (it.menuItems instanceof Array && it.menuItems.length > 0) {
@@ -104,8 +100,8 @@ export default function NavBar() {
                   <li data-ismenuitems="true" key={it.id}>
                     <div
                       ref={anchorRef}
-                      // aria-controls={open ? "menu-list-grow" : undefined}
-                      // aria-haspopup="true"
+                      aria-controls={i}
+                      aria-haspopup="true"
                       onClick={handleToggle}
                       className="a-links"
                     >
@@ -115,60 +111,51 @@ export default function NavBar() {
                     <Popper
                       open={open}
                       anchorEl={anchorRef.current}
-                      role={undefined}
                       transition
-                      // disablePortal
+                      className="grow"
                     >
-                      {({ TransitionProps, placement }) => (
+                      {({ TransitionProps }) => (
                         <Grow
                           {...TransitionProps}
-                          style={
-                            {
-                              // transformOrigin:
-                              //   // placement === "bottom"
-                              //     ? "center top"
-                              //     : "center bottom",
-                            }
-                          }
+                          style={{
+                            width: "100% !important",
+                          }}
+                          id={i}
                         >
                           <MyPaper>
                             <ClickAwayListener onClickAway={handleClose}>
-                              <MyMenuList
-                                autoFocusit={open}
-                                id="menu-list-grow"
-                                onKeyDown={handleListKeyDown}
-                              >
-                                <FooterContainer>
-                                  <FooterWrap>
-                                    <FooterLinksContainer>
-                                      <FooterLinkWrapper>
-                                        {it.menuItems.map((i) => {
-                                          return (
-                                            <FooterLinkItems key={i.id}>
-                                              <FooterLinkTitle>
-                                                {i.name}
-                                              </FooterLinkTitle>
-                                              <FooterLink to="/">
-                                                {i.desc}
-                                              </FooterLink>
-                                              {i.links.map((l) => {
-                                                return (
-                                                  <ul>
-                                                    <li key={l.id}>
-                                                      <a href={l.url}>
-                                                        {l.name}
-                                                      </a>
-                                                    </li>
-                                                  </ul>
-                                                );
-                                              })}
-                                            </FooterLinkItems>
-                                          );
-                                        })}
-                                      </FooterLinkWrapper>
-                                    </FooterLinksContainer>
-                                  </FooterWrap>
-                                </FooterContainer>
+                              <MyMenuList onKeyDown={handleListKeyDown}>
+                                <div className="services-section">
+                                  <div className="inner-width">
+                                    <div className="services-container">
+                                      {it.menuItems.map((i) => {
+                                        return (
+                                          <div
+                                            className="service-box"
+                                            key={i.id}
+                                          >
+                                            <div className="service-title">
+                                              {i.name}
+                                            </div>
+                                            <div className="service-desc">
+                                              {i.desc}
+                                            </div>
+                                            {i.links.map((l) => {
+                                              return (
+                                                <div
+                                                  className="service-link"
+                                                  key={l.id}
+                                                >
+                                                  <a href={l.url}>{l.name}</a>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                </div>
                               </MyMenuList>
                             </ClickAwayListener>
                           </MyPaper>
@@ -178,9 +165,10 @@ export default function NavBar() {
                   </li>
                 );
               } else {
+                console.log("IT", it);
                 return (
                   <li data-ismenuitems="false" key={it.id}>
-                    <a href={it.url} className="a-links">
+                    <a href={"https://www." + it.url} className="a-links">
                       {it.name}
                     </a>
                   </li>
