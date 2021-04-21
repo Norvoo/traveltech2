@@ -21,6 +21,7 @@ import {
   FooterLink,
 } from "../dp.js";
 import { BrowserRouter, Router } from "react-router-dom";
+import { changeElementColor } from "../../helper";
 
 const MyMenuList = styled(MenuList)({
   background: "black",
@@ -44,11 +45,14 @@ export default function NavBar() {
   // const [imageFile, setFile] = useState("");
   // const [menus, setMenu] = useState([]);
   useEffect(async () => {
-    console.log("fetched");
     let result = await fetch("http://192.168.0.109/travel/api/app/head");
     result = await result.json();
     setData(result);
+    console.log("fe", result);
+
+    changeElementColor("headerId", result.color);
   }, []);
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -76,11 +80,11 @@ export default function NavBar() {
 
     prevOpen.current = open;
   }, [open]);
-  function changeColorHeader() {
-    let color = document.getElementById("colorInput").value;
-    document.getElementById("headerId").style.backgroundColor = color;
-    document.getElementById("colorInputText").value = color;
-  }
+  // function changeColorHeader() {
+  //   let color = document.getElementById("colorInput").value;
+  //   document.getElementById("headerId").style.backgroundColor = color;
+  //   document.getElementById("colorInputText").value = color;
+  // }
   console.log("called");
   return (
     <div className="header">

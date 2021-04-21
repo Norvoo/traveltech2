@@ -7,11 +7,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Kkk from "./Model/Head/update.js";
 
 import Ftr from "./Components/Footer/Footer";
-function changeColorHeader() {
-  let color = document.getElementById("colorInput").value;
-  document.getElementById("headerId").style.backgroundColor = color;
-  document.getElementById("colorInputText").value = color;
-}
+
 function App() {
   return (
     <div className="App">
@@ -33,14 +29,6 @@ function App() {
         </Route>
         <Ftr />
       </BrowserRouter>
-      <input type="text" id="colorInputText" />
-      <input type="color" id="colorInput" />
-      <input
-        type="button"
-        id="colorButton"
-        value="change"
-        onClick={changeColorHeader}
-      />
     </div>
   );
 }
