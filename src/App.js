@@ -7,12 +7,15 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Kkk from "./Model/Head/update.js";
 
 import Ftr from "./Components/Footer/Footer";
-
+import { HeadProvider } from "./Context/headContext";
+import React, { useContext } from "react";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        <HeadProvider>
+          <Navbar />
+        </HeadProvider>
         <EDIT />
 
         {/* <FIcon /> */}
@@ -32,5 +35,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

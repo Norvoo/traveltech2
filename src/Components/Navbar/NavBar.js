@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../aoo.css";
 import { Link } from "react-router-dom";
 import { MdExpandMore } from "react-icons/md";
@@ -11,18 +11,8 @@ import {
   MenuList,
 } from "@material-ui/core";
 import { makeStyles, styled } from "@material-ui/core/styles";
-import {
-  FooterContainer,
-  FooterWrap,
-  FooterLinksContainer,
-  FooterLinkWrapper,
-  FooterLinkItems,
-  FooterLinkTitle,
-  FooterLink,
-} from "../dp.js";
-import { BrowserRouter, Router } from "react-router-dom";
 import { changeElementColor } from "../../helper";
-
+import { HeadContext } from "../../Context/headContext";
 const MyMenuList = styled(MenuList)({
   background: "black",
   paddingTop: "0px",
@@ -41,17 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function NavBar() {
-  const [data, setData] = useState({ menus: [] });
+  const head = useContext(HeadContext);
   // const [imageFile, setFile] = useState("");
   // const [menus, setMenu] = useState([]);
-  useEffect(async () => {
-    let result = await fetch("http://192.168.0.109/travel/api/app/head");
-    result = await result.json();
-    setData(result);
-    console.log("fe", result);
-
-    changeElementColor("headerId", result.color);
-  }, []);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -85,23 +67,23 @@ export default function NavBar() {
   //   document.getElementById("headerId").style.backgroundColor = color;
   //   document.getElementById("colorInputText").value = color;
   // }
-  console.log("called");
+  console.log("gad", head);
   return (
     <div className="header">
       <nav className="navs" id="headerId">
-        <a href="#" key={data.id}>
+        <a href="#" key={head.id}>
           <img
             style={{ width: 100 }}
-            src={"http://192.168.0.109/travel/wwwroot/Images/" + data.imageName}
+            src={"http://192.168.0.109/travel/wwwroot/Images/" + head.imageName}
           />
         </a>
         <ul>
-          {data.menus.map((it, i) => {
+          {head.menus.map((it, i) => {
             if (it.menuItems) {
               console.log(it.menuItems);
               if (it.menuItems instanceof Array && it.menuItems.length > 0) {
                 return (
-                  <li data-ismenuitems="true" key={it.id}>
+                  <li head-ismenuitems="true" key={it.id}>
                     <div
                       ref={anchorRef}
                       aria-controls={i}
@@ -171,7 +153,7 @@ export default function NavBar() {
               } else {
                 console.log("IT", it);
                 return (
-                  <li data-ismenuitems="false" key={it.id}>
+                  <li head-ismenuitems="false" key={it.id}>
                     <a href={"https://www." + it.url} className="a-links">
                       {it.name}
                     </a>
