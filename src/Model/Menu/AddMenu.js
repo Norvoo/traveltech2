@@ -3,34 +3,29 @@ import { FormControl, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { SettingsRemoteRounded } from "@material-ui/icons";
 import "../../App.css";
+import { jsonDataPost, getConnectIdData } from "../../helper";
 const AddPartner = () => {
   const [data, setData] = useState([]);
   const [headID, setHeadId] = useState(null);
   useEffect(async () => {
-    let result = await fetch("http://192.168.0.109/travel/api/app");
-    result = await result.json();
-    console.log(result);
-    setHeadId(result["headID"]);
-    setData(result);
+    getConnectIdData(
+      "http://192.168.0.109/travel/api/app",
+      setHeadId,
+      setData,
+      "headID"
+    );
   }, []);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
-  const clearState = () => {
-    setName("");
-    setUrl("");
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, url, headID };
 
-    fetch("http://192.168.0.109/travel/api/app/menus", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(partner),
-    }).then(() => {
-      console.log("new Menu");
-      clearState();
-    });
+    jsonDataPost(partner, "http://192.168.0.109/travel/api/app/menus").then(
+      () => {
+        console.log("new Menu");
+      }
+    );
     alert("new Menu");
   };
   const useStyles = makeStyles((theme) => ({
@@ -43,7 +38,6 @@ const AddPartner = () => {
       marginTop: theme.spacing(2),
     },
   }));
-
   const classes = useStyles();
   return (
     <div className="add-item">

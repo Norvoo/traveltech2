@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { FormControl, TextField, Container } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +12,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { styled } from "@material-ui/core/styles";
+import { getData } from "../../helper";
 function App() {
   const [menus, setMenus] = useState([]);
   const [name, setName] = useState("");
@@ -26,14 +21,8 @@ function App() {
   const [id, setId] = useState(null);
 
   const [head, setHead] = useState([]);
-  useEffect(async () => {
-    let result = await fetch("http://192.168.0.109/travel/api/app/head");
-    result = await result.json();
-
-    setHead(result);
-  }, []);
-
   useEffect(() => {
+    getData("http://192.168.0.109/travel/api/app/head", setHead);
     getmenus();
   }, []);
   function getmenus() {
@@ -138,90 +127,93 @@ function App() {
   });
   return (
     <div className="App">
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen("body")}
-      >
-        Add Menu
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-      >
-        <Up />
-      </Dialog>
-      <h1>Menu Update </h1>
-      <TableContainer component={Paper}>
-        <Table className={classes.root} aria-label="caption table">
-          <TableHead>
-            <TableCell>Menu </TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableHead>
-          <TableBody>
-            {menus.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.url}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => deleteMenu(item.id)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => seletMenu(item.id)}
-                  >
-                    Update
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <div className={classes.root}>
-            <TextField
-              label="Title"
-              value={name}
-              variant="outlined"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
+      <Container maxWidth="lg">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClickOpen("body")}
+        >
+          Add Menu
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <Up />
+        </Dialog>
+        <h1>Menu Update </h1>
+        <TableContainer component={Paper}>
+          <Table className={classes.root} aria-label="caption table">
+            <TableHead>
+              <TableCell>Menu </TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableHead>
+            <TableBody>
+              {menus.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.url}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => deleteMenu(item.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => seletMenu(item.id)}
+                    >
+                      Update
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div>
+          <FormControl variant="outlined" className={classes.formControl}>
+            <div className={classes.root}>
+              <TextField
+                label="Title"
+                value={name}
+                variant="outlined"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+          </FormControl>
+          <FormControl variant="outlined" className={classes.formControl}>
+            <div className={classes.root}>
+              <TextField
+                label="Url"
+                value={url}
+                variant="outlined"
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                }}
+              />
+            </div>
+          </FormControl>
+          <br />
+          <div>
+            <input type="hidden" value={headID || ""} name="headID" />
+            <br />
           </div>
-        </FormControl>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <div className={classes.root}>
-            <TextField
-              label="Url"
-              value={url}
-              variant="outlined"
-              onChange={(e) => {
-                setUrl(e.target.value);
-              }}
-            />
-          </div>
-        </FormControl>
-        <br />
-
-        <input type="hidden" value={headID || ""} name="headID" />
-        <br />
-        <MyButton onClick={updateMenu}>Update menu</MyButton>
-      </div>
+          <MyButton onClick={updateMenu}>Update menu</MyButton>
+        </div>
+      </Container>
     </div>
   );
 }

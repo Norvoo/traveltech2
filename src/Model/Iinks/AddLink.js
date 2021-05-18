@@ -3,6 +3,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
 import "../../App.css";
+import { jsonDataPost } from "../../helper";
 const AddLink = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
@@ -10,14 +11,11 @@ const AddLink = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, url };
-
-    fetch("http://192.168.0.109/travel/api/app/links", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(partner),
-    }).then(() => {
-      console.log("new Link");
-    });
+    jsonDataPost(partner, "http://192.168.0.109/travel/api/app/links").then(
+      () => {
+        console.log("new Link");
+      }
+    );
     alert("new Menu");
   };
   const useStyles = makeStyles((theme) => ({

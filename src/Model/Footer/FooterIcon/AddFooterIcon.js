@@ -88,6 +88,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import "../../../App.css";
+import { formDataPost } from "../../../helper";
 const AddFooterIcon = () => {
   const [imageFile, setFile] = useState("");
   const [url, setUrl] = useState("");
@@ -107,13 +108,7 @@ const AddFooterIcon = () => {
     formData.append("url", url);
 
     formData.append("footerID", footerID);
-    let result = await fetch(
-      "http://192.168.0.109/travel/api/app/footericons",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    formDataPost(formData, "http://192.168.0.109/travel/api/app/footericonsc");
     alert("data saved");
   }
   return (

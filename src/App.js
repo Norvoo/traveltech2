@@ -5,10 +5,11 @@ import EDIT from "./Components/ADMINEDITCONTROl/EdidButton.js";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Kkk from "./Model/Head/update.js";
-
+import Router from "./PATCH/LocalPatch";
 import Ftr from "./Components/Footer/Footer";
 import { HeadProvider } from "./Context/headContext";
 import React, { useContext } from "react";
+import { Container } from "@material-ui/core";
 function App() {
   return (
     <div className="App">
@@ -16,20 +17,10 @@ function App() {
         <HeadProvider>
           <Navbar />
         </HeadProvider>
-        <EDIT />
-
-        {/* <FIcon /> */}
-
-        {/* <Route path="/update/:id">
-          <TestUpdate />
-        </Route> */}
-        <Route path="/updateList/:id">
-          <Kkk />
-        </Route>
-        <Route path="/"></Route>
-        <Route path="/drop/add">
-          <AddDrop />
-        </Route>
+        <Container>
+          <EDIT />
+          <Router />
+        </Container>
         <Ftr />
       </BrowserRouter>
     </div>

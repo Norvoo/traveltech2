@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import "../../../App.css";
+import { jsonDataPost } from "../../../helper";
 const AddFooterMenu = () => {
   const [Appdata, setAppData] = useState([]);
   const [footerID, setFooterId] = useState(null);
@@ -31,12 +32,10 @@ const AddFooterMenu = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, footerID, links };
-
-    fetch("http://192.168.0.109/travel/api/app/footermenus", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(partner),
-    }).then(() => {
+    jsonDataPost(
+      partner,
+      "http://192.168.0.109/travel/api/app/footermenus"
+    ).then(() => {
       console.log("new Footer Menu ");
     });
     alert("data saved");

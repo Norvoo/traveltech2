@@ -4,7 +4,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MenuList from "../../Model/Menu/UpdateMenu.js";
+import MenuList from "../../Model/Menu/MenuList.js";
 import Update from "../../Model/MenuItem/list.js";
 import HeadLogo from "../../Model/Head/update.js";
 import ListLink from "../../Model/Iinks/ListLink.js";
@@ -16,6 +16,8 @@ import FooterIcons from "../../Model/Footer/FooterIcon/FooterIconsList.js";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import FooterMenu from "../../Model/Footer/FooterMenu/FooterMenuList";
+import { Link } from "react-router-dom";
+import Page from "../../Model/AddPage";
 export default function SimpleAccordion() {
   return (
     <div>
@@ -74,11 +76,10 @@ export default function SimpleAccordion() {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>Head-Logo-Update</Typography>
+            <Typography>
+              <Link to="/Head">Head Logo</Link>
+            </Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <HeadLogo />
-          </AccordionDetails>
         </Accordion>
       </Accordion>
       <Accordion>
@@ -99,6 +100,9 @@ export default function SimpleAccordion() {
           </AccordionSummary>
           <AccordionDetails>
             <Footer />
+          </AccordionDetails>
+          <AccordionDetails>
+            <Page />
           </AccordionDetails>
         </Accordion>
         <Accordion>

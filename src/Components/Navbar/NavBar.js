@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function NavBar() {
   const head = useContext(HeadContext);
+
   // const [imageFile, setFile] = useState("");
   // const [menus, setMenu] = useState([]);
 
@@ -67,16 +68,16 @@ export default function NavBar() {
   //   document.getElementById("headerId").style.backgroundColor = color;
   //   document.getElementById("colorInputText").value = color;
   // }
-  console.log("gad", head);
+
   return (
     <div className="header">
       <nav className="navs" id="headerId">
-        <a href="#" key={head.id}>
+        <Link to="/menuList" key={head.id}>
           <img
             style={{ width: 100 }}
             src={"http://192.168.0.109/travel/wwwroot/Images/" + head.imageName}
           />
-        </a>
+        </Link>
         <ul>
           {head.menus.map((it, i) => {
             if (it.menuItems) {

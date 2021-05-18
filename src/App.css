@@ -45,11 +45,45 @@
       border-radius: 4px;
     }
     .add-item{
-      width: 300px !important;
+      width: 600px !important;
       padding: 51px !important;
-      text-align: center !important;
+      
     }
-    .inpute{
-      width: 170px !important;
-    }
-   
+   textarea {
+     width: 100%;
+     min-height: 100px;
+     resize: none;
+     border: 2px solid rgb(156, 160, 245);
+     border-radius: 4px;
+     margin: 8px 0;
+     padding: 8px;
+     box-sizing: border-box;
+     transition: 0.3s;
+     outline: none;
+   }
+
+   textarea:focus {
+     border-color: rgb(121, 162, 222);
+     box-shadow: 0 0 8px 0 rgb(186, 214, 255);
+   }
+   .inpute {
+     width: 50%;
+     border: 2px solid #aaa;
+     border-radius: 4px;
+     margin: 8px 0;
+     padding: 8px;
+     box-sizing: border-box;
+     transition: 0.3s;
+     outline: none;
+   }
+
+   .inpute:focus {
+     border-color: rgb(121, 162, 222);
+     box-shadow: 0 0 8px 0 rgb(186, 214, 255);
+   }
+   .update{
+    
+    color: aliceblue;
+     font-size: 11px;
+     text-decoration: none;
+   }

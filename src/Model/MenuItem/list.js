@@ -17,6 +17,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import UpdateMenuItem from "../MenuItem/UpdateMenuitem";
+import { Link } from "react-router-dom";
+import "../../App.css";
 function App() {
   const [menuItems, setMenuItems] = useState([]);
   const [name, setName] = useState("");
@@ -26,20 +29,20 @@ function App() {
   const [links, setLin] = useState([]);
   const [link, setLink] = useState([]);
   const [menu, setMenu] = useState([]);
-  const getValue = (e) => {
-    var val = e.target.checked;
-    let datalink = links;
-    if (val == true) {
-      datalink.push({ id: parseInt(e.target.value) });
-    } else {
-      datalink = datalink.filter((link) => {
-        if (link.id != e.target.value) {
-          return link;
-        }
-      });
-    }
-    setLin(datalink);
-  };
+  // const getValue = (e) => {
+  //   var val = e.target.checked;
+  //   let datalink = links;
+  //   if (val == true) {
+  //     datalink.push({ id: parseInt(e.target.value) });
+  //   } else {
+  //     datalink = datalink.filter((link) => {
+  //       if (link.id != e.target.value) {
+  //         return link;
+  //       }
+  //     });
+  //   }
+  //   setLin(datalink);
+  // };
   useEffect(async () => {
     let result = await fetch("http://192.168.0.109/travel/api/app/menus");
     result = await result.json();
@@ -79,30 +82,30 @@ function App() {
       });
     });
   }
-  function seletMenu(id) {
-    var data;
-    let item = menuItems.map((menu) => {
-      if (menu.id == id) data = menu;
-    });
-    setName(data.name);
-    setDesc(data.desc);
-    setMenusId(data.menusID);
-    setLin(data.links);
-    setId(data.id);
-  }
-  function updateMenu() {
-    let item = { name, desc, menusId, id, links };
+  // function seletMenu(id) {
+  //   var data;
+  //   let item = menuItems.map((menu) => {
+  //     if (menu.id == id) data = menu;
+  //   });
+  //   setName(data.name);
+  //   setDesc(data.desc);
+  //   setMenusId(data.menusID);
+  //   setLin(data.links);
+  //   setId(data.id);
+  // }
+  // function updateMenu() {
+  //   let item = { name, desc, menusId, id, links };
 
-    fetch("http://192.168.0.109/travel/api/app/menuItems/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    });
-    getmenuItemss();
-  }
+  //   fetch("http://192.168.0.109/travel/api/app/menuItems/" + id, {
+  //     method: "PUT",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(item),
+  //   });
+  //   getmenuItemss();
+  // }
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > * ": {
@@ -182,12 +185,10 @@ function App() {
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => seletMenu(item.id)}
-                  >
-                    Update
+                  <Button variant="contained" color="primary">
+                    <Link className="update" to={"/menuitemupdate/" + item.id}>
+                      Update
+                    </Link>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -195,87 +196,10 @@ function App() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <div>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <div className={classes.root}>
-            <TextField
-              label="Title"
-              value={name || ""}
-              variant="outlined"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-        </FormControl>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <div className={classes.root}>
-            <TextField
-              label="Description"
-              value={desc || ""}
-              variant="outlined"
-              onChange={(e) => {
-                setDesc(e.target.value);
-              }}
-            />
-          </div>
-        </FormControl>
-        <br />
-        <FormControl variant="outlined" className={classes.formControl}>
-          <Select value={menusId} onChange={(e) => setMenusId(e.target.value)}>
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {menu.map((item) => {
-              return (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <div className="inputGrid">
-          {link.map((i) => {
-            var has = links.filter((li) => {
-              if (li.id == i.id) {
-                return li;
-              }
-            });
-            if (has.length != 0) {
-              return (
-                <div>
-                  <input
-                    key={i.id}
-                    type="checkbox"
-                    checked={true}
-                    onChange={(e) => getValue(e)}
-                    value={i.id || ""}
-                  />
-                  <label>{i.name}</label>
-                </div>
-              );
-            } else {
-              console.log("its false");
-              return (
-                <div>
-                  <input
-                    key={i.id}
-                    type="checkbox"
-                    checked={false}
-                    onChange={(e) => getValue(e)}
-                    value={i.id || ""}
-                  />
-                  <label>{i.name}</label>
-                </div>
-              );
-            }
-          })}
-        </div>
-        <br />
-        <MyButton onClick={updateMenu}>Update menu item</MyButton>
-      </div>
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }

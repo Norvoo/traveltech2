@@ -9,12 +9,12 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import "../../App.css";
+import { jsonDataPost } from "../../helper";
 const AddUrl = () => {
   const [data, setData] = useState([]);
   useEffect(async () => {
     let result = await fetch("http://192.168.0.109/travel/api/app/menus");
     result = await result.json();
-    console.log(result);
     setData(result);
   }, []);
   const [link, setLink] = useState([]);
@@ -24,8 +24,6 @@ const AddUrl = () => {
     console.log(result);
     setLink(result);
   }, []);
-
-  console.warn("link", link);
   const [name, setName] = useState("");
   const [desc, setDescription] = useState("");
   const [menusID, setMenuId] = useState("");
@@ -38,14 +36,11 @@ const AddUrl = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const partner = { name, desc, menusID, links };
-
-    fetch("http://192.168.0.109/travel/api/app/menuItems", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(partner),
-    }).then(() => {
-      console.log("new Menu items");
-    });
+    jsonDataPost(partner, "http://192.168.0.109/travel/api/app/menuItems").then(
+      () => {
+        console.log("new Menu items");
+      }
+    );
     alert("data saved");
   };
   const useStyles = makeStyles((theme) => ({
@@ -84,29 +79,34 @@ const AddUrl = () => {
             </Select>
           </FormControl>
           <br />
-          <TextField
-            variant="outlined"
-            type="text"
-            required
-            style={{ with: 180 }}
-            className="form-control inpute"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            name="name"
-            placeholder="Menu item"
-          />
+          <div>
+            <input
+              variant="outlined"
+              type="text"
+              required
+              style={{ with: 180 }}
+              className=" inpute"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              name="name"
+              placeholder="Menu item"
+            />
+            <br />
+          </div>
           <br />
-          <br />
-          <textarea
-            type="text"
-            required
-            className="form-control"
-            value={desc || ""}
-            onChange={(e) => setDescription(e.target.value)}
-            name="description"
-            placeholder="Description"
-          />
-          <br />
+          <div>
+            <textarea
+              type="text"
+              required
+              className="form-control"
+              value={desc || ""}
+              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              placeholder="Description"
+            />
+
+            <br />
+          </div>
 
           {link.map((i) => {
             return (
